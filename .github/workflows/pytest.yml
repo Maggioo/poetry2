@@ -22,7 +22,7 @@ jobs:
         poetry install
 
     - name: Install the project dependencies
-        run: poetry install
+      run: poetry install
 
     - name: Run PyTest
       run: |
