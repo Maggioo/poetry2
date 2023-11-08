@@ -1,89 +1,26 @@
-name: Coverage and pytest
+name: Run PyTest with Poetry
 
-on: [push]
+on: [push] # Define the trigger, e.g., run on every push
 
 jobs:
   test:
+    name: Run PyTest
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2 # This step checks out your code
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
-        
-    - name: Install dependencies
-      run: |
-        pip install pytest
-        pip install poetry
+        python-version: 3.11 # Set the desired Python version
 
-    - name: Run tests
+    - name: Install Poetry
       run: |
-        poetry run coverage run -m pytest
-        poetry run coverage report
+        pip install poetry
+        poetry install
 
     - name: Run PyTest
-      run: echo pytest
-
-    - name: Coverage Badge
-      uses: tj-actions/coverage-badge-py@v2
-
-    - name: Verify Changed files
-      uses: tj-actions/verify-changed-files@v16
-      id: verify-changed-files
-      with:
-        files: coverage.svg
-
-    - name: Commit files
-      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add coverage.svg
-        git commit -m "Updated coverage.svg"
-
-    - name: Push changes
-      if: steps.verify-changed-files.outputs.files_changed == 'true'
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.github_token }}
-        branch: ${{ github.ref }}
-
-      - name: Coverage Badge
-        uses: tj-actions/coverage-badge-py@v2
-
-      - name: Verify Changed files
-        uses: tj-actions/verify-changed-files@v16
-        id: verify-changed-files
-        with:
-          files: coverage.svg
-
-      - name: Commit files
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add coverage.svg
-          git commit -m "Updated coverage.svg"
-        env:
-          GITHUB_TOKEN: ${{ secrets.EZPRIT }}
-
-      
-      - name: Run PyLint
-        run: poetry run pylint tests cs_poetry || true
-
-      - name: Badge Pylint
-        uses: Silleellie/pylint-github-action@v1
-        with:
-          package-path: |
-            cs_poetry
-            tests
-          python-version: 3.11
-          requirements-path: requirements/requirements.txt
-
-      - name: Push changes
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        run: git push
+        poetry run pytest # Run your PyTest suite
