@@ -16,6 +16,9 @@ jobs:
         with:
           python-version: 3.11
 
+      - name: Install coverage package
+        run: pip install coverage
+        
       - name: Install Poetry and Dependencies
         run: |
           pip install poetry
