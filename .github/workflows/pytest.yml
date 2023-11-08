@@ -21,6 +21,9 @@ jobs:
         pip install poetry
         poetry install
 
+    - name: Install the project dependencies
+        run: poetry install
+
     - name: Run PyTest
       run: |
         poetry run pytest # Run your PyTest suite
