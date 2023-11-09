@@ -18,10 +18,11 @@ jobs:
 
       - name: Install coverage package
         run: pip install coverage
-        
+
       - name: Install Poetry and Dependencies
         run: |
           pip install poetry
+          pip install pytest
           poetry install
 
 
