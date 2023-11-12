@@ -38,4 +38,4 @@ jobs:
         with:
           name: coverage-report
           #path: /coverage
-          path: ${{ runner.workspace }}/coverage
+          path: ${{ runner.workspace }}
