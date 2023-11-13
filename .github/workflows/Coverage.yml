@@ -28,8 +28,8 @@ jobs:
 
       - name: Run Tests and Coverage
         run: |
-          coverage run -m pytest
-          coverage report -m
+          poetry run coverage -m pytest
+          poetry run coverage html
         #env:
         #  COVERAGE_FILE: ${{ runner.workspace }}/coverage/.coverage  # Set the path to the coverage file
 
